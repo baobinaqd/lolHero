@@ -10,7 +10,9 @@ const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectId
 
 // 数据库地址
-const url = 'mongodb://localhost:27017'
+//localhost是本机地址,但是在解析过程中要解析成本地ip地址,需要时间,直接改成本地ip
+// const url = 'mongodb://localhost:27017'
+const url = 'mongodb://127.0.0.1:27017'
 
 // 库的名字
 // 一般一个项目 用到的库 就是同一个

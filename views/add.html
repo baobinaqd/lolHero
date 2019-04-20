@@ -98,31 +98,31 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="skill" class="col-sm-2 control-label">技能</label>
+                  <label for="skillName" class="col-sm-2 control-label">技能</label>
                   <div class="col-sm-10">
                     <input
                       type="text"
                       class="form-control"
-                      id="skill"
-                      name="skill"
+                      id="skillName"
+                      name="skillName"
                       placeholder="请输入技能"
                     />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="icon" class="col-sm-2 control-label">头像</label>
+                  <label for="heroIcon" class="col-sm-2 control-label">头像</label>
                   <div class="col-sm-10">
                     <input
                       type="file"
                       class="form-control"
-                      id="icon"
-                      name="icon"
+                      id="heroIcon"
+                      name="heroIcon"
                     />
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">新增</button>
+                    <button type="submit" class="btn btn-default btn-add">新增</button>
                   </div>
                 </div>
               </form>
@@ -139,3 +139,32 @@
   Include all compiled plugins (below), or include individual files as needed
 -->
 <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+<script>
+  $(function(){
+    $('.btn-add').on('click',function(e){
+      //1.获取文本框里面的值
+      // const heroName=$('#heroName').val().trim();
+      // const skillName=$('#skillName').val().trim();
+      //h5的新方法FormData  里面要是dom元素
+      const form=new FormData($('form')[0]);
+      //2.
+      //发请求
+      $.ajax({
+        url:'/heroAdd',
+        type:'post',
+        data:form,
+        contentType:false,
+        processData:false,
+        success(obj){
+          console.log(obj);
+          if(obj.code==200){
+            location='index.html';
+          }else{
+            alert('新增失败!');
+          }
+        }
+      })
+      e.preventDefault();
+    })
+  })
+</script>

@@ -69,7 +69,7 @@ app.post('/heroAdd', upload.single('heroIcon'), (req, res) => {
     const skillName = req.body.skillName
     const heroName = req.body.heroName
     //拼接路径
-    const heroIcon = path.join('img', req.file.filename)
+    const heroIcon = path.join('imgs', req.file.filename)
     //保存到数据库中
     dbHelper.insertOne('cqlist', {
         heroName,
@@ -91,7 +91,7 @@ app.post('/heroUpdate', upload.single('heroIcon'), (req, res) => {
     const heroName = req.body.heroName
     const id = req.body.id
     //拼接路径
-    const heroIcon = path.join('img', req.file.filename)
+    const heroIcon = path.join('imgs', req.file.filename)
     //保存到数据库中
     dbHelper.updateOne('cqlist', {
         _id: dbHelper.ObjectId(id)
