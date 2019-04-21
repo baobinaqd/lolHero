@@ -153,7 +153,7 @@
     //点击保存按钮
     $('.btn-save').on('click', function (e) {
       const form = new FormData($('form')[0]);
-      // console.log(form);
+      console.log(form);
       $.ajax({
         url: '/heroUpdate',
         type:'post',

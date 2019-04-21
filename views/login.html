@@ -20,7 +20,8 @@
     .login-panel {
       margin-top: 200px;
     }
-    .vCode{
+
+    .vCode {
       height: 36px;
       cursor: pointer;
     }
@@ -36,26 +37,27 @@
             <h3 class="panel-title">登录英雄管理系统</h3>
           </div>
           <div class="panel-body">
-            <form action="#" method="post"  class="form-horizontal">
+            <form action="#" method="post" class="form-horizontal">
               <div class="form-group">
-                <label for="userName" class="col-sm-2 control-label">用户名</label>
+                <label for="username" class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-10">
-                  <input type="text" name="userName" value="赵*天" class="form-control" id="userName" placeholder="请输入用户名">
+                  <input type="text" name="username" value="" class="form-control" id="username" placeholder="请输入用户名">
                 </div>
               </div>
               <div class="form-group">
-                <label for="userPass" class="col-sm-2 control-label">密码</label>
+                <label for="userpass" class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-10">
-                  <input type="password" name="userPass" value="1234" class="form-control" id="userPass" placeholder="请输入密码">
+                  <input type="password" name="userpass" value="" class="form-control" id="userpass"
+                    placeholder="请输入密码">
                 </div>
               </div>
               <div class="form-group">
-                <label for="vCode" class="col-sm-2 control-label">验证码</label>
+                <label for="vcode" class="col-sm-2 control-label">验证码</label>
                 <div class="col-sm-6">
-                  <input type="text" name="vCode" class="form-control" id="vCode" placeholder="请输入验证码">
+                  <input type="text" name="vcode" class="form-control" id="vcode" placeholder="请输入验证码">
                 </div>
                 <div class="col-sm-4">
-                  <img class='vCode' src="./lib/img/code.png" alt="">
+                  <img class='vCode' src="/captcha" alt="">
                 </div>
               </div>
               <div class="form-group">
@@ -78,3 +80,40 @@
 <script src="./lib/bootstrap/js/jquery-1.12.4.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- 导入加密  m5 -->
+<script src="./lib/md5/md5.min.js"></script>
+<script>
+  //验证码点击事件
+  $('.vCode').on('click', function () {
+    // $(this).attr('src',`/captcha?${Math.randow()}`)
+    $(this).attr('src', `/captcha?${Date.now()}`)
+  })
+  //点击登录按钮
+  $('.login').click(function (e) {
+    //获取信息
+    e.preventDefault();
+    //对输入的密码进行处理
+    const userpass = md5($('#userpass').val(), 'lolhero');
+    $('#userpass').val(userpass);
+
+    //发请求
+    $.ajax({
+      url: '/login',
+      type: 'post',
+      data: $('form').serialize(),
+      success(obj) {
+        // console.log(obj);
+        alert(obj.msg);
+        if (obj.code == 401) {
+          //重新获取验证码
+          $('.vCode').click();
+        } else if (obj.code == 200) {
+          setTimeout(() => {
+            location = "index.html?username=" + obj.username;
+          }, 1000);
+        }
+      }
+    })
+
+  })
+</script>
