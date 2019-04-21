@@ -24,6 +24,8 @@ app.get('/heroList', (req, res) => {
   
     // 获取所有数据
     dbHelper.find('cqlist', {}, result => {
+        //查询出来要倒序
+        result=result.reverse()
       // 检索出符合查询条件的数据
       const temArr = result.filter(v => {
         if (v.heroName.indexOf(query) != -1 || v.skillName.indexOf(query) != -1) {
@@ -90,16 +92,22 @@ app.post('/heroUpdate', upload.single('heroIcon'), (req, res) => {
     const skillName = req.body.skillName
     const heroName = req.body.heroName
     const id = req.body.id
+    const obj={
+        heroName,
+        skillName,
+    }
     //拼接路径
-    const heroIcon = path.join('imgs', req.file.filename)
+    if(req.file){
+       const heroIcon = path.join('imgs', req.file.filename) 
+       //添加到obj里面
+       obj.heroIcon=heroIcon 
+    }
+    
     //保存到数据库中
     dbHelper.updateOne('cqlist', {
         _id: dbHelper.ObjectId(id)
     }, {
-        heroName,
-        heroIcon,
-        skillName,
-
+        obj
     }, result => {
         res.send({
             code: 200,

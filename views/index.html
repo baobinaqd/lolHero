@@ -221,7 +221,7 @@
     
     //点击查找功能
     function search(){
-      //1.点击查找按钮
+      /* //1.点击查找按钮
       $('.btn-search').on('click',function(e){
         query = $('input[name=search]').val().trim();
         heroList();
@@ -233,6 +233,14 @@
         if(e.keyCode==13){
           $('.btn-search').click();
         }
+      }) */
+
+      //上面的两个时间可以用下面这个来代替
+      //form表单的submit事件
+      $('form').submit(function(e){
+        query = $('input[name=search]').val().trim();
+        heroList();
+        e.preventDefault();
       })
     }
     
